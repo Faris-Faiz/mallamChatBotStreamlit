@@ -15,23 +15,31 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# Initialize api_key in session state if not present
+if "api_key" not in st.session_state:
+    st.session_state.api_key = ""
+
 # Sidebar for API key input
 with st.sidebar:
     st.title("⚙️ Settings")
-    api_key = st.text_input("Enter your Mesolitica API key", type="password")
-    if not api_key:
-        st.warning("Please enter your API key. If you don't have one, get it from [Mesolitica Playground](https://playground.mesolitica.com/)")
-        st.stop()
-
-# Initialize the OpenAI client with Mesolitica's base URL
-client = OpenAI(
-    base_url="https://llm-router.nous.mesolitica.com",
-    api_key=api_key
-)
+    sidebar_api_key = st.text_input("Enter your Mesolitica API key", type="password", key="sidebar_api_key")
+    if st.button("Submit API Key"):
+        st.session_state.api_key = sidebar_api_key
 
 # Set page title
 st.title("🌙 Mallam Chatbot 🤖")
 st.markdown("Welcome to Mallam Chatbot! Ask me anything and I'll help you out.")
+
+# Main page API key input if not provided
+if not st.session_state.api_key:
+    st.warning("Please enter your API key in the sidebar of this application. If you don't have one, get it from [Mesolitica Playground](https://playground.mesolitica.com/)")
+    st.stop()
+
+# Initialize the OpenAI client with Mesolitica's base URL
+client = OpenAI(
+    base_url="https://llm-router.nous.mesolitica.com",
+    api_key=st.session_state.api_key
+)
 
 # Initialize chat history
 if "messages" not in st.session_state:
