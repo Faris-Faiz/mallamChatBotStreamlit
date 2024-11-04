@@ -1,2 +1,4 @@
 openai
 streamlit
+streamlit_float
+audio_recorder_streamlit
