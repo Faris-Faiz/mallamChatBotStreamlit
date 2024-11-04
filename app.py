@@ -126,7 +126,7 @@ with st.expander("Click to expand voice input"):
                         completion = client.chat.completions.create(
                             model="mallam-small",
                             messages=[
-                                {"role": "system", "content": "You are a helpful AI assistant."},
+                                {"role": "system", "content": "Anda merupakan seorang assistant AI, dan akan mendapat beberapa soalan daripada pengguna. Sila jawab soalan mereka dengan betul dan berfakta."},
                                 *[{"role": m["role"], "content": m["content"]} for m in st.session_state.messages]
                             ]
                         )
